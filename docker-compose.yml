@@ -8,14 +8,13 @@ services:
     environment:
       NAMESPACE: "test"
       MEM_GB: 12
-  # cache-test-server:
-  #   container_name: cache-test-server
-  #   build:
-  #     context: ./server
-  #   depends_on:
-  #     - aerospikedb
-  #   links:
-  #     - aerospikedb
-  #   ports:
-  #     - 4000:4000
-    
+  cache-test-server:
+    container_name: cache-test-server
+    build:
+      context: .
+    depends_on:
+      - aerospikedb
+    links:
+      - aerospikedb
+    ports:
+      - 4000:4000

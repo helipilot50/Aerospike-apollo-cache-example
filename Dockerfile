@@ -2,11 +2,11 @@ FROM node:10
 
 WORKDIR /usr/src/app
 
+RUN npm i nodemon babel-cli -g
+
 COPY . .
 
-RUN npm i yarn nodemon babel-cli -g
-
-RUN yarn install
+RUN npm install
 
 EXPOSE 4000
 
