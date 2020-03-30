@@ -1,8 +1,8 @@
 // require('dotenv').config();
 
 const { ApolloServer } = require('apollo-server');
-const responseCachePlugin = require ('apollo-server-plugin-response-cache');
-const { ApolloCacheAerospike }  = require('apollo-server-cache-aerospike');
+const responseCachePlugin = require('apollo-server-plugin-response-cache');
+const { ApolloCacheAerospike } = require('apollo-server-cache-aerospike');
 const isEmail = require('isemail');
 
 const typeDefs = require('./schema');
@@ -13,6 +13,8 @@ const LaunchAPI = require('./datasources/launch');
 const UserAPI = require('./datasources/user');
 
 const internalEngineDemo = require('./engine-demo');
+
+const aerospikeSeedNode = process.env.AEROSPIKE_SEED_NODE || "localhost"
 
 // creates a sequelize connection once. NOT for every request
 const store = createStore();
@@ -51,7 +53,7 @@ const server = new ApolloServer({
       valueBinName: 'cache-value',
       cluster: {
         hosts: [
-          { addr: "localhost", port: 3000 }
+          { addr: aerospikeSeedNode, port: 3000 }
         ]
       }
     }
@@ -73,7 +75,7 @@ const server = new ApolloServer({
 if (process.env.NODE_ENV !== 'test')
   server
     .listen({ port: 4000 })
-    .then(({ url }) => console.log(`🚀 app running at ${url}`)); 
+    .then(({ url }) => console.log(`🚀 app running at ${url}`));
 
 // export all the important pieces for integration/e2e tests to use
 module.exports = {
